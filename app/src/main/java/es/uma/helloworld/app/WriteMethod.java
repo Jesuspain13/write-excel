@@ -31,6 +31,7 @@ public class WriteMethod {
 			}
 		} else {
 			workbook = new XSSFWorkbook(); // new HSSFWorkbook() for generating `.xls` file
+			sheet = workbook.createSheet("Hello world sheet");
 		}
 		
         /* CreationHelper helps us create instances of various things like DataFormat, 
@@ -54,8 +55,12 @@ public class WriteMethod {
 
         // Write the output to a file
         try {
-        	
-	        FileOutputStream fileOut = new FileOutputStream(f);
+        	FileOutputStream fileOut = null;
+        	if (f != null) {
+        		fileOut = new FileOutputStream(f);
+        	} else {
+        		fileOut = new FileOutputStream(new File("poi-generated.xlsx"));
+        	}
 	        workbook.write(fileOut);
 	        fileOut.close();
 	
@@ -76,7 +81,11 @@ public class WriteMethod {
 			}
 		});
 		
-		return matchingFiles[0];
+		if (matchingFiles != null) {
+			return matchingFiles[0];
+		} else {
+			return null;
+		}
 	}
 
 
